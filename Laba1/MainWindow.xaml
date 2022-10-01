@@ -1,0 +1,83 @@
+﻿<Window x:Class="Laba1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Laba1"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance local:MainWindow}"
+        Title="Распознавание образов" Height="560" Width="1500" ResizeMode="NoResize">
+    <Window.Resources>
+        <Style x:Key="CellStyle" TargetType="{x:Type DataGridCell}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter Margin="3" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Background="WhiteSmoke">
+        <StackPanel>
+            <TextBlock HorizontalAlignment="Center" FontWeight="Bold" FontSize="14" Padding="3" Text="Эталонный объект" />
+            <DataGrid IsHitTestVisible="False" Background="Transparent" CanUserResizeColumns="False" ItemsSource="{x:Static local:MainWindow.Dictionary}" IsReadOnly="True" CanUserSortColumns="False" AutoGenerateColumns="False" CellStyle="{StaticResource CellStyle}" HeadersVisibility="Column" HorizontalAlignment="Center">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Элемент" Width="120" Binding="{Binding Key}" />
+                    <DataGridTextColumn Header="Запись более 10,5 Мбит/с" Binding="{Binding Value[0]}" />
+                    <DataGridTextColumn Header="Чтение более 10,5 Мбит/с" Binding="{Binding Value[1]}" />
+                    <DataGridTextColumn Header="Емкость более 8 ГБ" Binding="{Binding Value[2]}" />
+                    <DataGridTextColumn Header="Масса менее 15 г" Binding="{Binding Value[3]}" />
+                    <DataGridTextColumn Header="Год выпуска более 2007 г" Binding="{Binding Value[4]}" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <TextBlock HorizontalAlignment="Center" FontWeight="Bold" FontSize="14" Padding="3" Text="Признаки" />
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel Margin="5">
+                    <TextBlock HorizontalAlignment="Center" Text="Запись более 10,5 Мбит/с"/>
+                    <CheckBox x:Name="Sign1" Margin="0 3 0 0" HorizontalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Margin="5">
+                    <TextBlock HorizontalAlignment="Center" Text="Чтение более 10,5 Мбит/с"/>
+                    <CheckBox x:Name="Sign2" Margin="0 3 0 0" HorizontalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Margin="5">
+                    <TextBlock HorizontalAlignment="Center" Text="Емкость более 8 ГБ"/>
+                    <CheckBox x:Name="Sign3" Margin="0 3 0 0" HorizontalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Margin="5">
+                    <TextBlock HorizontalAlignment="Center" Text="Масса менее 15 г"/>
+                    <CheckBox x:Name="Sign4" Margin="0 3 0 0" HorizontalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Margin="5">
+                    <TextBlock HorizontalAlignment="Center" Text="Год выпуска более 2007 г"/>
+                    <CheckBox x:Name="Sign5" Margin="0 3 0 0" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text=""/>
+            </StackPanel>
+            <Button Click="ButtonBase_OnClick" Content="Выполнить" HorizontalAlignment="Center" Margin="0 0 0 0" Padding="5"/>
+            <TextBlock Margin="0 10 0 0" HorizontalAlignment="Center" FontWeight="Bold" FontSize="14" Padding="3" Text="Результат" />
+            <DataGrid IsReadOnly="True" x:Name="ResultGrid" MaxColumnWidth="200" Background="Transparent" CanUserResizeColumns="False" CanUserSortColumns="False" AutoGenerateColumns="False" CellStyle="{StaticResource CellStyle}" HeadersVisibility="Column" HorizontalAlignment="Center">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Элемент" Width="120" Binding="{Binding Key}" />
+                    <DataGridTextColumn Header="Расстояние" Binding="{Binding Value[0]}" />
+                    <DataGridTextColumn Header="Функция сходства Рассела и Рао" Binding="{Binding Value[1]}" />
+                    <DataGridTextColumn Header="Функция сходства Жокара и Нидмена" Binding="{Binding Value[2]}" />
+                    <DataGridTextColumn Header="Функция сходства Дайса" Binding="{Binding Value[3]}" />
+                    <DataGridTextColumn Header="Функция сходства Сокаля и Снифа" Binding="{Binding Value[4]}" />
+                    <DataGridTextColumn Header="Функция сходства Сокаля и Мишнера" Binding="{Binding Value[5]}" />
+                    <DataGridTextColumn Header="Функция сходства Кульжинского" Binding="{Binding Value[6]}" />
+                    <DataGridTextColumn Header="Функция сходства Юла" Binding="{Binding Value[7]}" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <TextBlock Margin="0 10 0 0" FontWeight="Bold" FontSize="15" TextAlignment="Center" HorizontalAlignment="Center" Text="Наиболее предпочтительные элементы"/>
+            <TextBlock Margin="0 10 0 0" x:Name="Results" FontStyle="Italic" FontWeight="Bold" FontSize="12" TextAlignment="Center" HorizontalAlignment="Center"/>
+        </StackPanel>
+    </Grid>
+</Window>
