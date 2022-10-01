@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace Laba1
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public static Dictionary<string, int[]> Dictionary => new Dictionary<string, int[]>
         {
@@ -21,26 +21,17 @@ namespace Laba1
             InitializeComponent();
         }
 
-        private static int GetDistance(IEnumerable<int> input, string key)
-        {
-            return input.Select((value, index) => Math.Abs(value - Dictionary[key][index])).Sum();
-        }
-
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            var results = new Dictionary<string, List<double>>();
-            
             var input = new[] {Sign1, Sign2, Sign3, Sign4, Sign5}
                 .Select(x => x.IsChecked.GetValueOrDefault())
                 .Select(Convert.ToInt32)
                 .ToArray();
-            
-            foreach (var pair in Dictionary)
-            {
-                var calculations = Enumerable.Range(1, 7).Select(x => GetMarkByFunction(input, pair.Key, x)).ToList();
-                calculations.Insert(0, GetDistance(input, pair.Key));
-                results.Add(pair.Key, calculations);
-            }
+
+            var results = Dictionary
+                .ToDictionary(pair => pair.Key, pair => Enumerable.Range(0, 8)
+                .Select(x => GetMarkByFunction(input, pair.Key, x))
+                .ToList());
 
             var minDist = results
                 .GroupBy(x => x.Value[0])
@@ -58,6 +49,13 @@ namespace Laba1
 
         private static double GetMarkByFunction(IReadOnlyList<int> input, string key, int func)
         {
+            if (func == 0)
+            {
+                return input
+                    .Select((value, index) => Math.Abs(value - Dictionary[key][index]))
+                    .Sum();
+            }
+            
             double a = 0;
             double b = 0;
             double g = 0;
